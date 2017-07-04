@@ -1,0 +1,7 @@
+/bin/
+
+.classpath
+MDFilesCheckLog*.html
+htmlToPdf*.pdf
+pdfs
+logs

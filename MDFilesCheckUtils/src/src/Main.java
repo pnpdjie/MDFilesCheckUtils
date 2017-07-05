@@ -12,14 +12,15 @@ import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.SwingUtilities;
-import javax.swing.SwingWorker;
 
 import org.apache.log4j.PropertyConfigurator;
+
+import src.CheckPane;
+import src.PublishPane;
 
 /**
  * 主界面.

@@ -374,7 +374,7 @@ public class CheckPane extends JPanel {
           checkCharset(file);
           searchWrongTitle(file);
           List<MyUrl> wrongIntercalPath = wrongPathChecker
-              .searchWrongIntercalPath(file);
+              .searchWrongIntercalPath(file, rootPath);
           wrongInternalPathList.addAll(wrongIntercalPath);
           jpb.setValue(100 * (i + 1) / result.size());
           // 用于监听器取值

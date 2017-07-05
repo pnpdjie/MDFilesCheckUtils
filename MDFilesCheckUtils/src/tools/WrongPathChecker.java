@@ -48,24 +48,14 @@ public class WrongPathChecker {
   /**
    * 判断内部引用路径是否有效.
    * 
-   * @param file
-   *          引用路径的文件
+   * @param rootPath
+   *          项目根路径
    * @param strPath
    *          引用路径
    * @return 返回true或者false
    */
-  public boolean isValidIntercalPath(final File file, final String strPath) {
-    String path = "";
-    try {
-      if (file.exists()) {
-        path = file.getParent();
-      } else {
-        throw new FileNotFoundException();
-      }
-    } catch (FileNotFoundException e) {
-      e.printStackTrace();
-    }
-    File intercalFile = new File(path + "\\" + strPath);
+  public boolean isValidIntercalPath(final String rootPath, final String strPath) {
+    File intercalFile = new File(rootPath + "\\" + strPath);
     if (intercalFile.exists()) {
       return true;
     }
@@ -77,15 +67,18 @@ public class WrongPathChecker {
    * 
    * @param file
    *          需要检测的文件
+   * @param rootPath
+   *          项目根路径
    */
-  public List<MyUrl> searchWrongIntercalPath(final File file) {
+  public List<MyUrl> searchWrongIntercalPath(final File file, final String rootPath) {
     List<MyUrl> wrongInternalPathList = new ArrayList<MyUrl>();
     // 检索引入超链接[超链接文本](超链接地址 "悬浮显示")的正则
     String intercalRex = "\\[[^\\(\\)]*\\]\\([^\\(\\)]+\\)";
     Pattern intercalPattern = Pattern.compile(intercalRex);
     // 检查是否为外部网址链接的正则
-    String httpRex = "(http://|https://)(([a-zA-z0-9\\?\\!\\&\\*\\#\\=\\/-]){1,}\\.){1,}"
-        + "[a-zA-z0-9\\?\\!\\&\\*\\#\\=\\/-]{1,}";
+    // String httpRex = "(http://|https://)(([a-zA-z0-9\\?\\!\\&\\*\\#\\=\\/-]){1,}\\.){1,}"
+    //    + "([a-zA-z0-9\\?\\!\\&\\*\\#\\=\\/-][^\\[\\]]。，\"\\(\\)\\{\\}){1,}";
+    String httpRex = "(http://|https://)[^\\(\\)\\[\\]\\{\\}\\<\\>\\s，。；：\"]{1,}";
     Pattern httpPattern = Pattern.compile(httpRex);
     // 检测是否为锚点链接[文字](#锚点位置)的正则
     String anchorRex = "^\\#";
@@ -109,7 +102,7 @@ public class WrongPathChecker {
           Matcher httpMatcher = httpPattern.matcher(intercalPath);
           Matcher anchorMatcher = anchorPattern.matcher(intercalPath);
           if (!httpMatcher.find() && !anchorMatcher.find()
-              && !isValidIntercalPath(file, intercalPath.trim())) {
+              && !isValidIntercalPath(rootPath, intercalPath.trim())) {
             MyUrl myUrl = new MyUrl();
             myUrl.setFile(file.getParent() + "\\" + file.getName());
             myUrl.setUrl(intercalPath);

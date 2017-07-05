@@ -85,9 +85,9 @@ public class IncludePathChecker {
     Pattern pattern = Pattern.compile("/$");
     Matcher matcher = pattern.matcher(rootPath);
     if (matcher.find()) {
-      include = "_include/";
+      include = "_includes/";
     } else {
-      include = "/_include/";
+      include = "/_includes/";
     }
     File folder = new File(rootPath + include + strPath);
     if (folder.exists()) {

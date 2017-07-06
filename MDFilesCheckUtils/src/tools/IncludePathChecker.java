@@ -62,7 +62,9 @@ public class IncludePathChecker {
     } finally {
       // 关闭流
       try {
-        lineReader.close();
+        if (lineReader != null) {
+          lineReader.close();
+        }
       } catch (IOException e) {
         // TODO Auto-generated catch block
         e.printStackTrace();
